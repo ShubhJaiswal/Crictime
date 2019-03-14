@@ -1,0 +1,254 @@
+<div class="container">
+  <h1>Match</h1>
+  <div class="row">
+    <div class="card mb-3 col-sm-12" *ngFor="let data of cricketNews">
+      <div class="row">
+        <div class="card mb-3 col-sm-6">
+          <div class="card-body">
+            <div class="row" style="text-align: justify;">
+              <p>{{data.type}} Match </p> --
+              <strong><p>{{data.team1}} vs {{data.team2}}</p></strong> --
+              <p class="float-right">{{data.date | date}}</p> -- <br>
+              <div *ngIf="data.matchStarted; else notShow">
+                  <p>
+                    Match Started
+                  </p>
+                </div>
+                <ng-template #notShow>
+                  <p>
+                    Match Not Started
+                  </p>
+                </ng-template>
+            </div>
+
+            {{totalScore}}
+
+            <br>
+            <br>
+            <p class="card-text">Game ID : {{data.unique_id}}</p>
+            <p class="card-text"> Game Type : {{data.type}}</p>
+            <p class="card-text"> Game Date : {{data.date | date}}</p>
+            <p class="card-text"> Game DateTimeGMT{{data.dateTimeGMT | date}}</p>
+            <p class="card-text"> Game Started : {{data.matchStarted}}</p>
+            <p class="card-text"> Toss Won : {{data.toss_winner_team}}</p>
+            <p class="card-text"> Team 1 : {{data.team1}} </p>
+            <p class="card-text"> Team 2 : {{data.team2}} </p>
+            <a href="{{serverUrl}}{{data.unique_id}}-{{data.team1}}-vs-{{data.team2}}"
+              class="btn btn-warning float-right">Get Detail</a>
+            <button class="btn btn-danger" (click)="getMatchSquad(data.unique_id)">Squad</button>
+            <button class="btn btn-success" (click)="getScoreCard()">Score Card</button>
+            <button class="btn btn-info" (click)="getCricketScores(data.unique_id)">Get Data</button>
+
+          </div>
+        </div>
+        <div class="card mb-3 col-sm-6" *ngIf="showSquad">
+          <div class="card-body">
+            <h2 class="card-title">Squad</h2> <hr>
+            <ng-container *ngFor="let team of MatchTeams">
+              <h4 class="card-text col-sm-12">{{team.name}}: </h4> <hr>
+              <ng-container *ngFor="let player of team.players ">
+                {{player.name}},
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+        <div class="card mb-3 col-sm-6" *ngIf="showScore">
+          <div class="card-body">
+            <ng-container class="card mb-3">
+              <strong>{{MatchWin}}</strong>  Won the Match <br>
+              <strong>{{MatchWin}}</strong> Won the Toss <br>
+              Man of the Match <strong> {{MatchManofMatch}} </strong>
+            </ng-container>
+
+            <h2 class="card-title">Scores</h2>
+            <ng-container class="card mb-3" *ngFor="let score of MatchScoresBatting"> <hr>
+                {{score.title}}
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                          Batsman
+                      </th>
+                      <th>
+                          Bowled
+                      </th>
+                      <th>
+                          Run
+                      </th>
+                      <th>
+                          Balls
+                      </th>
+                      <th>
+                          4s
+                      </th>
+                      <th>
+                          6s
+                      </th>
+                      <th>
+                        SR
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let score of score.scores ">
+                      <td>
+                        {{score.batsman}}
+                      </td>
+                      <td>
+                        {{score.dismissalInfo}}
+                      </td>
+                      <td>
+                        {{score.R}}
+                      </td>
+                      <td>
+                        {{score.B}}
+                      </td>
+                      <td>
+                        {{score.Fours}}
+                      </td>
+                      <td>
+                        {{score.Sixes}}
+                      </td>
+                      <td>
+                        {{score.SR}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ng-container>
+              <h2>Bowling</h2>
+              <ng-container class="card mb-3" *ngFor="let score of MatchScoresBowling">
+
+                <table>
+                    <thead>
+                      <tr>
+                        <th>
+                            Bowler
+                        </th>
+                        <th>
+                            Over
+                        </th>
+                        <th>
+                            Maiden
+                        </th>
+                        <th>
+                            Run
+                        </th>
+                        <th>
+                            4s
+                        </th>
+                        <th>
+                            6s
+                        </th>
+                        <th>
+                            Econ
+                        </th>
+                        <th>
+                            Wickets
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let score of score.scores ">
+                        <td>
+                          {{score.bowler}}
+                        </td>
+                        <td>
+                          {{score.O}}
+                        </td>
+                        <td>
+                          {{score.M}}
+                        </td>
+                        <td>
+                          {{score.R}}
+                        </td>
+                        <td>
+                          {{score.Fours}}
+                        </td>
+                        <td>
+                          {{score.Sixes}}
+                        </td>
+                        <td>
+                          {{score.Econ}}
+                        </td>
+                        <td>
+                          {{score.W}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </ng-container>
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!--
+      <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <h5 class="card-title">Afganistan</h5>
+                  <h5 class="card-title">Ireland</h5>
+                </div>
+                <div class="col-md-6">
+                  -- <h5 class="card-subtitle ">Card subtitle</h5>
+                  <h5 class="card-subtitle">Card subtitle</h5> --
+                  <h5 class="card-title">210/7</h5>
+                  <h5 class="card-title">178/5 (20ov)</h5>
+                </div>
+               -- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> --
+                  <a routerLink="/scorecard" class="card-link">Score Card</a>
+                  <a routerLink="/report" class="card-link">Report</a>
+                </div>
+            </div>
+          </div>
+        </div> -->
+
+
+
+
+
+
+
+
+
+
+
+<!--
+  Select Country:
+    <select (change)="choice($event.target.value)">
+      <option>Select Country</option>
+      <option *ngFor="let c of contries" [value]="c.code">{{c.country}}</option>
+    </select>
+
+    {{selectedCountry }}
+
+    <div [ngSwitch]="selectedCountry">
+      <div *ngSwitchCase="'ind'" class="jumbotron">
+        <p>India Calling code in +91</p>
+      </div>
+
+      <div *ngSwitchCase="'nz'" class="jumbotron">
+        <p>New Zeland calling code in +93</p>
+      </div>
+
+      <div *ngSwitchCase="'aus'" class="jumbotron">
+        <p>Australia calling code is +998</p>
+      </div>
+
+      <div *ngSwitchDefault class="jumbotron">
+        <p>
+          Please select your country
+        </p>
+      </div>
+    </div>
+  </div> -->

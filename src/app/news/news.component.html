@@ -1,0 +1,45 @@
+<!-- <div class="container">
+<h1>News</h1>
+<div class="card mb-3" *ngFor="let data of myData">
+    <img src="{{data.urlToImage}}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{data.title}}</h5>
+      <p class="card-text"> {{data.content}}</p>
+
+
+
+
+      <p class="card-text">{{data.description}}</p>
+      <div class="row">
+
+ -->
+
+            <!-- <div class="col-sm-6"><p class="card-text"> {{data.author}} </p> </small></div>
+            <small class="col-sm-6">
+            <p class="card-text"> {{data.publishedAt | date: 'dd/MMM/yyyy'}} </p> </div>
+
+          </div>
+        </small>
+      </div>
+
+    </div>
+  </div>
+</div> -->
+
+
+<div class="container">
+    <h1>News</h1>
+    <div class="card mb-3" *ngFor="let data of myData">
+        <img src="{{data.urlToImage}}" class="card-img-top" alt="image">
+        <div class="card-body">
+          <h5 class="card-title">{{data.title}}</h5>
+          <p class="card-text"> {{data.content}}</p>
+          <p class="card-text">{{data.description}}</p>
+          <div class="row text-muted">
+              <div class="col-sm-6"><p class="card-text"> {{data.author}} </p> </div>
+              <div class="col-sm-6"><p class="card-text"> {{data.publishedAt | date: 'dd/MMM/yyyy'}} </p> </div>
+          </div>
+        </div>
+    </div>
+</div>
+
