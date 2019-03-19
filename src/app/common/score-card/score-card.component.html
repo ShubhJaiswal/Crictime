@@ -1,8 +1,306 @@
 <div class="container">
-
-  <div class="card mb-3" *ngFor="let data of myData">
+  <div class="card">
+    <h5 class="card-header">
+      <a class="col-sm-3" href="#">Live Score</a>
+      <a class="col-sm-3" (click)="getCricketScores(uId, 'Scorecard')" style="color:#007bff"> Scorecard </a>
+      <a class="col-sm-3" style="color:#007bff">Full Commentary</a>
+      <a class="col-sm-3"  (click)="getCricketScores(uId, 'Squad')" style="color:#007bff">Squad</a>
+    </h5>
     <div class="card-body">
-        <h5 class="card-title">{{data.title}}</h5>
+      <h6 class="card-title float-left" style="color:red;">{{totalScore}}</h6>
+      <h6 *ngIf="MatchWin" class="card-title " style="color:gold; text-align: center">
+        <!-- {{MatchWin}} Won -->
+        <marquee width="50%" direction="left" height="30%">
+          <strong>{{MatchWin}}</strong> Won the Match
+        </marquee>
+      <p *ngIf="MatchManofMatch != null" class="card-title margin:1% float-right" style="color:red;">  Man of the Match <strong> {{MatchManofMatch}} </strong> </p>
+      </h6>
+      <br>
+
+      <br>
+
+      <div>
+        <ul *ngFor="let inning of first">
+          <li>{{inning.title}}</li>
+        </ul>
+        <ul *ngFor="let inning of second"><li>
+          {{inning.title}}
+        </li></ul>
+      </div>
+
+
+
+
+        <span *ngFor="let score of MatchScoresBatting">
+          <h3 style="color: green">{{score.title}}</h3>
+          <table>
+            <thead>
+              <tr *ngIf="score" style="border:1px solid">
+                <th>Batsman</th>
+                <th>Bowled</th>
+                <th> Run</th>
+                <th> Balls</th>
+                <th>4s</th>
+                <th>6s</th>
+                <th>SR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let score of score.scores" style="border:1px solid">
+                <td>{{score.batsman}}</td>
+                <td>{{score.dismissalInfo}}</td>
+                <td>{{score.R}}</td>
+                <td>{{score.B}}</td>
+                <td>{{score.Fours}}</td>
+                <td>{{score.Sixes}}</td>
+                <td>{{score.SR}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </span>
+
+
+
+
+        <span *ngFor="let score of MatchScoresBowling">
+          <h3 style="color: green">{{score.title}}</h3>
+          <table>
+            <thead>
+              <tr style="border:1px solid">
+                <th>Bowler</th>
+                <th>Over</th>
+                <th>Maiden</th>
+                <th>Run</th>
+                <th>4s</th>
+                <th>6s</th>
+                <th>Economy</th>
+                <th>Wickets</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let score of score.scores " style="border:1px solid">
+                <td>{{score.bowler}}</td>
+                <td>{{score.O}}</td>
+                <td>{{score.M}}</td>
+                <td>{{score.R}}</td>
+                <td>{{score.Fours}}</td>
+                <td>{{score.Sixes}}</td>
+                <td>{{score.Econ}}</td>
+                <td>{{score.W}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </span>
+
+
+      <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+
+
+      <!-- <p  *ngIf="MatchManofMatch != null" class="float-right">  Man of the Match <strong> {{MatchManofMatch}} </strong> </p> -->
+
+
+
+      <!-- <ng-template
+            *ngIf="tossWin == 'no toss';then showBlock; else notShowBlock">
+      </ng-template>
+
+      <ng-template #showBlock> <p class="card-title float-left" >{{tossWin}}</p></ng-template>
+
+      <ng-template #notShowBlock>
+        <p class="card-title float-left" > <strong>{{tossWin}}</strong> Won the Toss </p>
+      </ng-template>
+
+      <h6 class="card-title" style="color:red; text-align: center">{{totalScore}}
+        <p *ngIf="MatchWin" class=""  style="box-align: center"><marquee width="100%" direction="left" height="10%"><strong>{{MatchWin}}</strong> Won the Match </marquee></p>
+      </h6> -->
+
     </div>
   </div>
 </div>
+
+
+
+<div class="container-fluid">
+
+
+  <p class="card-header">
+    <!-- <p  *ngIf="MatchManofMatch != null" class="float-right">  Man of the Match <strong> {{MatchManofMatch}} </strong> </p> -->
+
+    <!-- <p *ngIf="tossWin == 'no toss'" class="float-left"><strong>{{tossWin}}</strong> Won the Toss </p><br> -->
+
+    <!-- <ng-template
+          *ngIf="tossWin == 'no toss';then showBlock; else notShowBlock">
+    </ng-template>
+
+    <ng-template #showBlock> <p>{{tossWin}}</p></ng-template>
+
+    <ng-template #notShowBlock>
+      <p> <strong>{{tossWin}}</strong> Won the Toss <br></p>
+    </ng-template>
+
+    <p *ngIf="MatchWin" ><marquee width="40%" direction="left" height="30%"><strong>{{MatchWin}}</strong> Won the Match </marquee></p>
+  </div> -->
+
+  <!-- <div class="row" *ngIf="showScore">
+      <ng-container>
+
+      <div class="col-sm-6">
+
+          <span *ngFor="let score of MatchScoresBatting">
+            <h3 style="color: green">{{score.title}}</h3>
+            <table>
+              <thead>
+                <tr *ngIf="score" style="border:1px solid">
+                  <th>Batsman</th>
+                  <th>Bowled</th>
+                  <th> Run</th>
+                  <th> Balls</th>
+                  <th>4s</th>
+                  <th>6s</th>
+                  <th>SR</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let score of score.scores" style="border:1px solid">
+                  <td>{{score.batsman}}</td>
+                  <td>{{score.dismissalInfo}}</td>
+                  <td>{{score.R}}</td>
+                  <td>{{score.B}}</td>
+                  <td>{{score.Fours}}</td>
+                  <td>{{score.Sixes}}</td>
+                  <td>{{score.SR}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </span>
+
+      </div>
+      <div class="col-sm-6">
+
+          <span *ngFor="let score of MatchScoresBowling">
+            <h3 style="color: green">{{score.title}}</h3>
+            <table>
+              <thead>
+                <tr style="border:1px solid">
+                  <th>Bowler</th>
+                  <th>Over</th>
+                  <th>Maiden</th>
+                  <th>Run</th>
+                  <th>4s</th>
+                  <th>6s</th>
+                  <th>Economy</th>
+                  <th>Wickets</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let score of score.scores " style="border:1px solid">
+                  <td>{{score.bowler}}</td>
+                  <td>{{score.O}}</td>
+                  <td>{{score.M}}</td>
+                  <td>{{score.R}}</td>
+                  <td>{{score.Fours}}</td>
+                  <td>{{score.Sixes}}</td>
+                  <td>{{score.Econ}}</td>
+                  <td>{{score.W}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </span>
+
+      </div>
+      </ng-container>
+  </div> -->
+
+  <!-- <ng-container *ngFor="let squad of matchSquad">
+    <div class="row">
+      {{squad.name}} :
+      <span *ngFor="let player of squad.players">
+        <a>{{player.name}}</a>
+      </span>
+    </div> -->
+  <div class="row" *ngIf="showSquad">
+    <table  *ngFor="let squad of matchSquad" class="col-sm-6">
+      <thead >
+          <th style="border: 1px; text-align: center" > {{squad.name}} </th> <hr>
+          <tr style="border: 1px; text-align: center"  *ngFor="let player of squad.players">
+          <td> {{player.name}} </td>
+        </tr>
+      </thead>
+    </table>
+  </div>
+
+  <!-- </ng-container> -->
+
+
+
+
+<!--
+        <div *ngFor="let score of fullScoreBoard">
+            <h6 style="color: green">{{score.title}}</h6>
+            <table>
+              <thead>
+                <tr><th>Batsman</th><th>Bowled</th><th>Run</th><th>Balls</th><th>4s</th><th>6s</th><th>SR</th></tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let score of score.scores ">
+                  <td>{{score.batsman}}</td><td>{{score.dismissalInfo}}</td><td>{{score.R}}</td><td>{{score.B}}</td><td>{{score.Fours}}</td><td>{{score.Sixes}}</td><td>{{score.SR}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngFor="let score of fullScoreBoard">
+            {{score.scores}}
+              <p *ngFor="let score of score.scores">
+                {{score.scores}}
+                <span *ngFor="let score of score.scores">
+                  {{score.title}}
+                </span>
+              </p>
+              <table>
+                  <thead>
+                    <tr>
+                      <th>Bowler</th><th>Over</th><th>Maiden</th><th>Run</th><th>4s</th><th>6s</th><th>Economy</th><th>Wickets</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let score of score.scores ">
+                      <td>{{score.bowler}}</td><td>{{score.O}}</td><td>{{score.M}}</td><td>{{score.R}}</td><td>{{score.Fours}}</td><td>{{score.Sixes}}</td><td>{{score.Econ}}</td><td>{{score.W}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+ -->
+
+
+<!-- </ng-container> -->
+
+
+<!--
+          <ng-container class="card mb-3" *ngFor="let score of MatchScoresBatting"> <hr>
+              <h3 style="color: green">{{score.title}}</h3>
+              <table>
+                <thead>
+                  <tr><th>Batsman</th><th>Bowled</th><th>Run</th><th>Balls</th><th>4s</th><th>6s</th><th>SR</th></tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let score of score.scores ">
+                    <td>{{score.batsman}}</td><td>{{score.dismissalInfo}}</td><td>{{score.R}}</td><td>{{score.B}}</td><td>{{score.Fours}}</td><td>{{score.Sixes}}</td><td>{{score.SR}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </ng-container>
+
+            <ng-container class="card mb-3" *ngFor="let score of MatchScoresBowling">
+              <table>
+                  <thead>
+                    <tr>
+                      <th>Bowler</th><th>Over</th><th>Maiden</th><th>Run</th><th>4s</th><th>6s</th><th>Economy</th><th>Wickets</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let score of score.scores ">
+                      <td>{{score.bowler}}</td><td>{{score.O}}</td><td>{{score.M}}</td><td>{{score.R}}</td><td>{{score.Fours}}</td><td>{{score.Sixes}}</td><td>{{score.Econ}}</td><td>{{score.W}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </ng-container> -->

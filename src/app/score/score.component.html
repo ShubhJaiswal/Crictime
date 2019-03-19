@@ -1,4 +1,55 @@
 <div class="container">
+
+    <div class="card text-center" *ngFor="let data of cricketNews">
+        <div class="card-header">
+          Featured
+        </div>
+        <div class="card-body" >
+          <h5 class="card-title">{{data.team1}} vs {{data.team2}}</h5>
+
+          <!-- <p *ngIf="data.winner_team" style="color:darkgreen"> {{data.winner_team}} won</p> -->
+          <!-- <p *ngIf="!data.winner_team" style="color:crimson"> Match is in Progress </p> -->
+          <p class="float-right" style="color:lawngreen">{{data.date | date}}</p>
+          <p  class="float-left" style="color:lawngreen">{{data.toss_winner_team}} won the toss</p>
+          <ng-template
+          *ngIf="data.matchStarted;then showBlock; else notShowBlock">
+        </ng-template>
+          <ng-template #showBlock>
+
+              <ng-template *ngIf="data.winner_team;then showWinner; else showMatchStatus"> </ng-template>
+                <ng-template #showWinner>
+                  <p style="color:gold; text-align: center"> {{data.winner_team}} won</p>
+                </ng-template>
+                <ng-template #showMatchStatus>
+                  <p style="color:gold; text-align: center"> Match is in Progress </p>
+                </ng-template>
+          </ng-template>
+
+          <ng-template #notShowBlock>
+            <p style="color:gold; text-align: center">
+              Match not started
+            </p>
+          </ng-template>
+
+        </div>
+        <div class="card-footer text-muted">
+            <a href="#">Live Score</a> |
+            <a (click)="getCricketScores(data.unique_id, 'Scorecard')" style="color:#007bff"> Scorecard </a> |
+            <a (click)='getCriketDetail(data.unique_id)' style="color:#007bff">Full Commentary</a> |
+            <a (click)="getCricketScores(data.unique_id, 'Squad')" style="color:#007bff">Squad</a>
+        </div>
+      </div>
+      <br>
+</div>
+
+<!-- India vs Australia, 5th ODI
+Mar 13 • 1:30 PM at Feroz Shah Kotla, Delhi
+IND 237-all out (50.0 Ovs)  •  AUS 272/9 (50.0 Ovs)
+Australia won by 35 runs
+ Live ScoreScorecardFull CommentaryNews -->
+
+
+<!-- <div class="container">
   <h1>Match</h1>
   <div class="row">
     <div class="card mb-3 col-sm-12" *ngFor="let data of cricketNews">
@@ -20,9 +71,7 @@
                   </p>
                 </ng-template>
             </div>
-
             {{totalScore}}
-
             <br>
             <br>
             <p class="card-text">Game ID : {{data.unique_id}}</p>
@@ -33,8 +82,7 @@
             <p class="card-text"> Toss Won : {{data.toss_winner_team}}</p>
             <p class="card-text"> Team 1 : {{data.team1}} </p>
             <p class="card-text"> Team 2 : {{data.team2}} </p>
-            <a href="{{serverUrl}}{{data.unique_id}}-{{data.team1}}-vs-{{data.team2}}"
-              class="btn btn-warning float-right">Get Detail</a>
+
             <button class="btn btn-danger" (click)="getMatchSquad(data.unique_id)">Squad</button>
             <button class="btn btn-success" (click)="getScoreCard()">Score Card</button>
             <button class="btn btn-info" (click)="getCricketScores(data.unique_id)">Get Data</button>
@@ -65,115 +113,26 @@
                 {{score.title}}
                 <table>
                   <thead>
-                    <tr>
-                      <th>
-                          Batsman
-                      </th>
-                      <th>
-                          Bowled
-                      </th>
-                      <th>
-                          Run
-                      </th>
-                      <th>
-                          Balls
-                      </th>
-                      <th>
-                          4s
-                      </th>
-                      <th>
-                          6s
-                      </th>
-                      <th>
-                        SR
-                      </th>
-                    </tr>
+                    <tr><th>Batsman</th><th>Bowled</th><th>Run</th><th>Balls</th><th>4s</th><th>6s</th><th>SR</th></tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let score of score.scores ">
-                      <td>
-                        {{score.batsman}}
-                      </td>
-                      <td>
-                        {{score.dismissalInfo}}
-                      </td>
-                      <td>
-                        {{score.R}}
-                      </td>
-                      <td>
-                        {{score.B}}
-                      </td>
-                      <td>
-                        {{score.Fours}}
-                      </td>
-                      <td>
-                        {{score.Sixes}}
-                      </td>
-                      <td>
-                        {{score.SR}}
-                      </td>
+                      <td>{{score.batsman}}</td><td>{{score.dismissalInfo}}</td><td>{{score.R}}</td><td>{{score.B}}</td><td>{{score.Fours}}</td><td>{{score.Sixes}}</td><td>{{score.SR}}</td>
                     </tr>
                   </tbody>
                 </table>
               </ng-container>
               <h2>Bowling</h2>
               <ng-container class="card mb-3" *ngFor="let score of MatchScoresBowling">
-
                 <table>
                     <thead>
                       <tr>
-                        <th>
-                            Bowler
-                        </th>
-                        <th>
-                            Over
-                        </th>
-                        <th>
-                            Maiden
-                        </th>
-                        <th>
-                            Run
-                        </th>
-                        <th>
-                            4s
-                        </th>
-                        <th>
-                            6s
-                        </th>
-                        <th>
-                            Econ
-                        </th>
-                        <th>
-                            Wickets
-                        </th>
+                        <th>Bowler</th><th>Over</th><th>Maiden</th><th>Run</th><th>4s</th><th>6s</th><th>Economy</th><th>Wickets</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let score of score.scores ">
-                        <td>
-                          {{score.bowler}}
-                        </td>
-                        <td>
-                          {{score.O}}
-                        </td>
-                        <td>
-                          {{score.M}}
-                        </td>
-                        <td>
-                          {{score.R}}
-                        </td>
-                        <td>
-                          {{score.Fours}}
-                        </td>
-                        <td>
-                          {{score.Sixes}}
-                        </td>
-                        <td>
-                          {{score.Econ}}
-                        </td>
-                        <td>
-                          {{score.W}}
-                        </td>
+                        <td>{{score.bowler}}</td><td>{{score.O}}</td><td>{{score.M}}</td><td>{{score.R}}</td><td>{{score.Fours}}</td><td>{{score.Sixes}}</td><td>{{score.Econ}}</td><td>{{score.W}}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -187,7 +146,7 @@
     </div>
 
   </div>
-</div>
+</div> -->
 
 
 <!--
@@ -218,7 +177,8 @@
 
 
 
-
+ <!-- <a href="{{serverUrl}}{{data.unique_id}}-{{data.team1}}-vs-{{data.team2}}"
+              class="btn btn-warning float-right">Get Detail</a> -->
 
 
 
